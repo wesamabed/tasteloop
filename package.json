@@ -1,0 +1,23 @@
+{
+  "name": "tasteloop",
+  "private": true,
+  "version": "0.0.1",
+  "description": "TasteLoop – Cross-domain taste AI assistant (Gemini + Qloo)",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:api": "pnpm --filter @tasteloop/api dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "concurrently -k \"pnpm dev:api\" \"pnpm dev:web\"",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc -b --pretty"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "@types/node": "^22.7.4"
+  }
+}
