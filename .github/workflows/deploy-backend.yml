@@ -30,6 +30,7 @@ jobs:
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCLOUD_SA_KEY }}
+        project_id:       ${{ secrets.GCLOUD_PROJECT }}
 
     - name: Set GCloud defaults
       run: |
@@ -37,21 +38,25 @@ jobs:
         gcloud config set run/region $GCLOUD_REGION
 
     - name: Build & push container
+      env:
+        GCLOUD_REGION: ${{ secrets.GCLOUD_REGION }}
+        GCLOUD_PROJECT: ${{ secrets.GCLOUD_PROJECT }}
       run: |
+        set -euo pipefail
         GIT_SHA=$(git rev-parse --short HEAD)
-        REGION=$GCLOUD_REGION
-        PROJECT=$GCLOUD_PROJECT
-        IMAGE="$REGION-docker.pkg.dev/$PROJECT/tasteloop-containers/api:$GIT_SHA"
+        IMAGE="$GCLOUD_REGION-docker.pkg.dev/$GCLOUD_PROJECT/tasteloop-containers/api:$GIT_SHA"
         gcloud builds submit --tag "$IMAGE" .
 
     - name: Deploy to Cloud Run
+      env:
+        GCLOUD_REGION: ${{ secrets.GCLOUD_REGION }}
+        GCLOUD_PROJECT: ${{ secrets.GCLOUD_PROJECT }}
       run: |
+        set -euo pipefail
         GIT_SHA=$(git rev-parse --short HEAD)
-        REGION=$GCLOUD_REGION
-        PROJECT=$GCLOUD_PROJECT
-        IMAGE="$REGION-docker.pkg.dev/$PROJECT/tasteloop-containers/api:$GIT_SHA"
+        IMAGE="$GCLOUD_REGION-docker.pkg.dev/$GCLOUD_PROJECT/tasteloop-containers/api:$GIT_SHA"
         gcloud run deploy tasteloop-api \
           --image "$IMAGE" \
           --allow-unauthenticated \
-          --service-account tasteloop-runner@$PROJECT.iam.gserviceaccount.com \
+          --service-account tasteloop-runner@$GCLOUD_PROJECT.iam.gserviceaccount.com \
           --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest,QLOO_API_KEY=QLOO_API_KEY:latest,MONGODB_URI=MONGODB_URI:latest"
