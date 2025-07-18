@@ -1,0 +1,57 @@
+name: Deploy backend (Cloud Run)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'packages/**'        # shared libs that the API depends on
+      - 'Dockerfile'
+      - 'pnpm-lock.yaml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'      # for WorkloadIdentity if you prefer key-less auth
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: pnpm/action-setup@v3
+      with: { version: 9.15.9 }
+
+    - uses: actions/setup-node@v4
+      with: { node-version: '22' }
+
+    - name: Auth to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCLOUD_SA_KEY }}
+
+    - name: Set GCloud defaults
+      run: |
+        gcloud config set project $GCLOUD_PROJECT
+        gcloud config set run/region $GCLOUD_REGION
+
+    - name: Build & push container
+      run: |
+        GIT_SHA=$(git rev-parse --short HEAD)
+        REGION=$GCLOUD_REGION
+        PROJECT=$GCLOUD_PROJECT
+        IMAGE="$REGION-docker.pkg.dev/$PROJECT/tasteloop-containers/api:$GIT_SHA"
+        gcloud builds submit --tag "$IMAGE" .
+
+    - name: Deploy to Cloud Run
+      run: |
+        GIT_SHA=$(git rev-parse --short HEAD)
+        REGION=$GCLOUD_REGION
+        PROJECT=$GCLOUD_PROJECT
+        IMAGE="$REGION-docker.pkg.dev/$PROJECT/tasteloop-containers/api:$GIT_SHA"
+        gcloud run deploy tasteloop-api \
+          --image "$IMAGE" \
+          --allow-unauthenticated \
+          --service-account tasteloop-runner@$PROJECT.iam.gserviceaccount.com \
+          --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest,QLOO_API_KEY=QLOO_API_KEY:latest,MONGODB_URI=MONGODB_URI:latest"
