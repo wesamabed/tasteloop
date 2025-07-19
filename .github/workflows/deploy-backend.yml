@@ -52,7 +52,7 @@ jobs:
         set -euo pipefail
         GIT_SHA=$(git rev-parse --short HEAD)
         IMAGE="$GCLOUD_REGION-docker.pkg.dev/$GCLOUD_PROJECT/tasteloop-containers/api:$GIT_SHA"
-        gcloud builds submit --tag "$IMAGE" --no-stream --quiet .
+        gcloud builds submit --tag "$IMAGE" --quiet .
 
     - name: Deploy to Cloud Run
       env:
