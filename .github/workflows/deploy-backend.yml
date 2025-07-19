@@ -63,6 +63,7 @@ jobs:
         GIT_SHA=$(git rev-parse --short HEAD)
         IMAGE="$GCLOUD_REGION-docker.pkg.dev/$GCLOUD_PROJECT/tasteloop-containers/api:$GIT_SHA"
         gcloud run deploy tasteloop-api \
+          --region "$GCLOUD_REGION" \ 
           --image "$IMAGE" \
           --allow-unauthenticated \
           --service-account tasteloop-runner@$GCLOUD_PROJECT.iam.gserviceaccount.com \
