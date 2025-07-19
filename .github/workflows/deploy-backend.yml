@@ -62,10 +62,11 @@ jobs:
         set -euo pipefail
         GIT_SHA=$(git rev-parse --short HEAD)
         IMAGE="$GCLOUD_REGION-docker.pkg.dev/$GCLOUD_PROJECT/tasteloop-containers/api:$GIT_SHA"
+
         gcloud run deploy tasteloop-api \
-          --region "$GCLOUD_REGION" \ 
-          --image "$IMAGE" \
+          --region="$GCLOUD_REGION" \
+          --image="$IMAGE" \
           --allow-unauthenticated \
-          --service-account tasteloop-runner@$GCLOUD_PROJECT.iam.gserviceaccount.com \
+          --service-account="tasteloop-runner@$GCLOUD_PROJECT.iam.gserviceaccount.com" \
           --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest,QLOO_API_KEY=QLOO_API_KEY:latest,MONGODB_URI=MONGODB_URI:latest"
 
