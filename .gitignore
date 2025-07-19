@@ -137,3 +137,26 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+
+# --- tasteloop custom rules ---------------------------------
+
+# build artefacts
+/dist/
+/apps/*/dist/
+/packages/*/dist/
+/apps/*/.turbo/
+/*.tgz
+
+# service-account keys & env files
+*sa-key.json
+*ci-key.json
+*.json-key
+*.env.local
+*.env.development.local
+*.env.production.local
+pglite-debug.log
+firebase-debug.log
+
+# pnpm store (if ever vendored)
+.pnpm/
