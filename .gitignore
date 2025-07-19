@@ -160,3 +160,18 @@ firebase-debug.log
 
 # pnpm store (if ever vendored)
 .pnpm/
+
+
+# --- TasteLoop additions ---
+# SA keys & envs
+*ci-key.json
+*.key.json
+.env.local
+.env.development
+# Build artefacts
+apps/*/dist/
+packages/*/dist/
+# Vite, pnpm & misc debug
+apps/web/.vite/
+pglite-debug.log
+firebase-debug.log
