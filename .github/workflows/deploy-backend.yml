@@ -31,7 +31,12 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCLOUD_SA_KEY }}
         project_id:       ${{ secrets.GCLOUD_PROJECT }}
-
+        
+    - name: 🔍 Dump SA e-mail & try gsutil
+      run: |
+        echo "Creds file is $GOOGLE_APPLICATION_CREDENTIALS"
+        jq -r '.client_email' "$GOOGLE_APPLICATION_CREDENTIALS"
+        gsutil ls gs://tasteloop_cloudbuild || true
 
     - name: Build & push container
       env:
@@ -57,4 +62,3 @@ jobs:
           --service-account tasteloop-runner@$GCLOUD_PROJECT.iam.gserviceaccount.com \
           --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest,QLOO_API_KEY=QLOO_API_KEY:latest,MONGODB_URI=MONGODB_URI:latest"
 
-          
