@@ -14,5 +14,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./QlooClient"), exports);
-__exportStar(require("./legacy-helpers"), exports); // optional helpers kept for convenience
+__exportStar(require("./ports/RecommendationsPort"), exports);
+__exportStar(require("./ports/TasteProfileRepo"), exports);
+__exportStar(require("./usecases/SeedProfile"), exports);
+__exportStar(require("./ports/TextSegmentationPort"), exports);
+__exportStar(require("./ports/SegmenterPort"), exports);

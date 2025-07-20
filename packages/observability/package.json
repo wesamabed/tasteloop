@@ -1,0 +1,19 @@
+{
+  "name": "@tasteloop/observability",
+  "version": "0.1.0",
+  "description": "centralised logging / metrics utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "pino": "^8.19.0",
+    "pino-pretty": "^13.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

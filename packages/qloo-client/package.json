@@ -9,10 +9,12 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@tasteloop/core": "workspace:*",
+    "@tasteloop/observability": "workspace:^",
     "cross-fetch": "^4.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "@types/node": "^22.7.4"
+    "@types/node": "^22.7.4",
+    "typescript": "^5.8.3"
   }
 }

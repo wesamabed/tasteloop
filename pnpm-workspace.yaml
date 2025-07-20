@@ -1,3 +1,4 @@
 packages:
+  - "packages/observability"
   - "apps/*"
   - "packages/*"

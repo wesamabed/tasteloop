@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["node"],
-    "baseUrl": ".",
-    "outDir": "dist"
+    "baseUrl": "."
+    ,"paths": { "@tasteloop/*": ["packages/*/src"] }
   }
 }

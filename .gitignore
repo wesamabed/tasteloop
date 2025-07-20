@@ -175,3 +175,4 @@ packages/*/dist/
 apps/web/.vite/
 pglite-debug.log
 firebase-debug.log
+debug.sh
