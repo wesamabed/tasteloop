@@ -25,7 +25,7 @@ export class GeminiSegmenterAdapter implements SegmenterPort {
     — If you can’t find anything, return an empty array [].
 
     Example:
-      Input:  "I love sushi 🍣, Radiohead, and dark-roast coffee—plus cinnamon rolls!"
+      Input:  "I love sushi , Radiohead, and dark-roast coffee—plus cinnamon rolls!"
       Output: ["sushi", "radiohead", "dark-roast coffee", "cinnamon rolls"]
 
     Now process the following:
